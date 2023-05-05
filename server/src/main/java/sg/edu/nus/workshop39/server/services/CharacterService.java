@@ -41,7 +41,7 @@ public class CharacterService {
         }else{
             Optional<MarvelCharacter> op = 
                     marvelApisvc
-                    .getCharacterDetails(charDetailsJson);
+                    .getCharacterDetails(characterId);
 
             dd = op.get();
             redisTemplate.opsForValue()

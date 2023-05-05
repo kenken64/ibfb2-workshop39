@@ -34,12 +34,13 @@ public class CharacterRestController {
     private CharacterService charsvc;
 
     @GetMapping
-    public ResponseEntity getCharacters(
+    public ResponseEntity<String> getCharacters(
         @RequestParam(required=true) String charName,
         @RequestParam(required=true) Integer limit,
         @RequestParam(required=true) Integer offset
         
     ){
+        System.out.println("char >" + charName);
         JsonArray result = null;
         Optional<List<MarvelCharacter>> arr = this.charsvc.getCharacters(charName, limit, offset);
         List<MarvelCharacter> aa = arr.get();
@@ -57,6 +58,7 @@ public class CharacterRestController {
     public ResponseEntity<String> getCharacterDetails(
         @PathVariable(required=true) String charId
     ) throws IOException{
+        System.out.println(charId);
         MarvelCharacter c = this.charsvc.getCharacterDetails(charId);
         JsonObjectBuilder bld = Json.createObjectBuilder()
             .add("details", c.toJSON());
@@ -68,11 +70,15 @@ public class CharacterRestController {
                 .body(result.toString());
     }
 
-    @PostMapping()
+    @PostMapping(path="/{charId}")
     public ResponseEntity<String> saveCharacterComment(
         @RequestBody Comment comment, 
         @PathVariable(required=true) String charId
     ){
+        System.out.println("save Comment!");
+        System.out.println("charId? " + charId);
+        System.out.println("comment? " + comment.getCharId());
+        
         comment.setCharId(charId);
         Comment r= this.charsvc.insertComment(comment);
         return ResponseEntity
