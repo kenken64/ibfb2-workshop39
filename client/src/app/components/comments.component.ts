@@ -44,6 +44,20 @@ export class CommentsComponent implements OnInit, OnDestroy{
     c.comment = commentVal;
     c.charId = this.charId;
     this.marvelApiSvc.saveComment(c);
+
+    // revert back to use observable due to some bugs on the
+    // lastValueFrom when dealing with posting
+    this.marvelApiSvc.saveComment(c).subscribe(
+    {
+      next: (results) => {
+        console.log('save c', results);
+      },
+    
+      error: (err: any) => { 
+        console.log('error save c...', err.status);
+      },
+      complete: () => { }
+    });
     this.backtoCharDetails();
   }
 

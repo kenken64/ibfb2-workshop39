@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { firstValueFrom, lastValueFrom } from 'rxjs';
+import { Observable, firstValueFrom, lastValueFrom } from 'rxjs';
 import { Character } from '../model/Character';
 import { Comment } from '../model/Comment';
 
@@ -31,11 +31,15 @@ export class MarvelCharService {
       .get<Character>(this.MARVEL_API_URL + '/' + charId, {headers: this.headers}));
   }
 
-  saveComment(c: Comment): Promise<Comment>{
-    const body = JSON.stringify(c);
-    console.log("save comment");
-    return lastValueFrom(this.httpClient
-          .post<Comment>(this.MARVEL_API_URL + '/' + c.charId, body, {headers: this.headers}));
+ 
+  saveComment(c:Comment) : Observable<any>{
+    const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+    const body=JSON.stringify(c);
+    console.log("save comment !");
+    console.log("save comment !" + c.charId);
+    return this.httpClient
+      .post<Comment>(this.MARVEL_API_URL+"/" + c.charId, body, 
+      {headers: headers});
   }
 
   getCharComments(charId: string): Promise<Comment[]> {

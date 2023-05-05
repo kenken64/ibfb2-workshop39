@@ -78,7 +78,7 @@ public class CharacterRestController {
         System.out.println("save Comment!");
         System.out.println("charId? " + charId);
         System.out.println("comment? " + comment.getCharId());
-        
+        comment.setComment(comment.getComment());
         comment.setCharId(charId);
         Comment r= this.charsvc.insertComment(comment);
         return ResponseEntity
