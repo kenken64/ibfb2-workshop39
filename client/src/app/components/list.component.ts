@@ -44,8 +44,6 @@ export class ListComponent implements OnInit, OnDestroy{
   }
 
   async previous(){
-    console.log(this.pageNumber);
-    console.log(this.currentIndex);
     if(this.currentIndex > 0){
       this.currentIndex = this.currentIndex - 5;
       this.pageNumber--;
@@ -58,7 +56,6 @@ export class ListComponent implements OnInit, OnDestroy{
   }
 
   async next(){
-    console.log(this.pageNumber);
     this.currentIndex = this.currentIndex + 5;
     const l = await this.marvelApiSvc
         .getCharacters(this.charName, this.currentIndex, 5);

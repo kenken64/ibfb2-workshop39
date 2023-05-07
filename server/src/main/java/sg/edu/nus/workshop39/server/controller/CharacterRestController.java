@@ -40,7 +40,6 @@ public class CharacterRestController {
         @RequestParam(required=true) Integer offset
         
     ){
-        System.out.println("char >" + charName);
         JsonArray result = null;
         Optional<List<MarvelCharacter>> arr = this.charsvc.getCharacters(charName, limit, offset);
         List<MarvelCharacter> aa = arr.get();
@@ -58,7 +57,6 @@ public class CharacterRestController {
     public ResponseEntity<String> getCharacterDetails(
         @PathVariable(required=true) String charId
     ) throws IOException{
-        System.out.println(charId);
         MarvelCharacter c = this.charsvc.getCharacterDetails(charId);
         JsonObjectBuilder bld = Json.createObjectBuilder()
             .add("details", c.toJSON());
@@ -75,9 +73,6 @@ public class CharacterRestController {
         @RequestBody Comment comment, 
         @PathVariable(required=true) String charId
     ){
-        System.out.println("save Comment!");
-        System.out.println("charId? " + charId);
-        System.out.println("comment? " + comment.getCharId());
         comment.setComment(comment.getComment());
         comment.setCharId(charId);
         Comment r= this.charsvc.insertComment(comment);

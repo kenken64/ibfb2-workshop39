@@ -15,7 +15,6 @@ export class MarvelCharService {
 
   getCharacters(charName:string , 
       offset: number, limit: number): Promise<any>{
-    console.log(charName);
     const params = new HttpParams()
         .set("charName", charName)
         .set("limit", limit)
@@ -34,8 +33,6 @@ export class MarvelCharService {
  
   saveComment(c:Comment) : Observable<Comment>{
     const body=JSON.stringify(c);
-    console.log("save comment !");
-    console.log("save comment !" + c.charId);
     return this.httpClient
       .post<Comment>(this.MARVEL_API_URL+"/" + c.charId, body, 
       {headers: this.headers}).pipe(

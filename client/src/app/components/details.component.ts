@@ -28,12 +28,10 @@ export class DetailsComponent implements OnInit, OnDestroy{
         this.param$ = this.activatedRoute.params.subscribe(
           async (params)=> {
             this.charId = params['charId'];
-            console.log(this.charId);
             const l = await this.marvelApiSvc.getCharacterDetails(this.charId);
             this.character = l.details;
             const ll = await this.marvelApiSvc.getCharComments(this.charId);
             this.comments = ll;
-            console.log(ll);
           }
         )
     }

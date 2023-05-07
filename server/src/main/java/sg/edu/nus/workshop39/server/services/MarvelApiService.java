@@ -43,7 +43,6 @@ public class MarvelApiService {
         ResponseEntity<String> resp = null;
         List<MarvelCharacter> c = null;
         String[] r = getMarvelApiHash();
-        System.out.println(characterName.replaceAll(" ", "+"));
         
         String marvelApiCharsUrl = UriComponentsBuilder
                                     .fromUriString(marvelApiUrl 
@@ -57,11 +56,9 @@ public class MarvelApiService {
                                     .queryParam("limit", limit)
                                     .queryParam("offset", offset)
                                     .toUriString();
-        System.out.println(marvelApiCharsUrl);
         RestTemplate rTemplate = new RestTemplate();
         resp = rTemplate.getForEntity(marvelApiCharsUrl, String.class);
         try {
-            System.out.println(resp.getBody());
             c= MarvelCharacter.create(resp.getBody());
         } catch (IOException e) {
             e.printStackTrace();
@@ -78,7 +75,6 @@ public class MarvelApiService {
         MarvelCharacter c = null;
         
         String[] r = getMarvelApiHash();
-        System.out.println(charId);
         String marvelApiCharsUrl = UriComponentsBuilder
                                     .fromUriString(marvelApiUrl 
                                         +"characters/" + charId)
@@ -87,7 +83,6 @@ public class MarvelApiService {
                                             marvelApiPubKey.trim())
                                     .queryParam("hash", r[1])
                                     .toUriString();
-        System.out.println(marvelApiCharsUrl);
         RestTemplate rTemplate = new RestTemplate();
         resp = rTemplate.getForEntity(marvelApiCharsUrl, 
                 String.class);

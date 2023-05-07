@@ -25,7 +25,6 @@ public class Comment implements Serializable{
 
     public static Comment create(Document d){
         Comment c = new Comment();
-        // TODO refactor to comment Id instead of char id
         c.setCharId(d.getObjectId("charId").toString());
         c.setComment(d.getString("comment"));
         return c;

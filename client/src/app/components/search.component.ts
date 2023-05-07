@@ -20,7 +20,6 @@ export class SearchComponent implements OnInit{
 
     search(){
       const charName = this.form?.value['charName'];
-      console.log(charName);
       this.router.navigate(['/list', charName]);
     }
 
