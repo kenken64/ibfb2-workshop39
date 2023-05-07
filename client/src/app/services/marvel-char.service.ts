@@ -33,13 +33,12 @@ export class MarvelCharService {
 
  
   saveComment(c:Comment) : Observable<Comment>{
-    const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     const body=JSON.stringify(c);
     console.log("save comment !");
     console.log("save comment !" + c.charId);
     return this.httpClient
       .post<Comment>(this.MARVEL_API_URL+"/" + c.charId, body, 
-      {headers: headers}).pipe(
+      {headers: this.headers}).pipe(
         tap(_ => console.log(`add comment`)),
       catchError(this.handleError<Comment>('saveComment')));
   }
