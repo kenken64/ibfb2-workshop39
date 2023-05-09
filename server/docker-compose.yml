@@ -1,0 +1,57 @@
+version: "3.9" # specify docker-compose version
+
+# Define the services/containers to be run
+services:
+  mongodb: # mongo db 
+    container_name: "mongodb"   
+    build: 
+      context: ./mongodb
+      dockerfile: Dockerfile # specify image to build container from
+    volumes:
+      - ./mongodata:/data/db 
+    ports:
+      - "27018:27017" # specify port forwarding
+    networks:
+      - some-net # default network
+  redis: # redis db 
+    container_name: "redis"   
+    build: 
+      context: ./redis
+      dockerfile: Dockerfile # specify image to build container from
+    ports:
+      - "6388:6379" # specify port forwarding
+    networks:
+      - some-net # default network
+
+  spring-boot: # spring boot 
+    container_name: "spring-boot"   
+    build: 
+      context: ./
+      dockerfile: Dockerfile # specify image to build container from
+    ports:
+      - "8080:8080" # specify port forwarding
+    environment:
+      - MONGOHOST=mongodb
+      - MONGOPORT=27017
+      - MONGODB=marveldb
+      - REDISHOST=redis
+      - REDISPORT=6388
+      - REDISUSER= 
+      - REDISPASSWORD= 
+      - MARVEL_API_URL=https://gateway.marvel.com:443/v1/public/
+      - MARVEL_API_PRIVATE_KEY=9ec118cdd907df89f157b4f2625c5b0abb670bd7
+      - MARVEL_API_PUBLIC_KEY=76ee705b0c648cd243529c1870cfbf79
+    depends_on:
+      - mongodb
+      - redis
+    links:
+      - mongodb # link this service to the database service
+      - redis
+    networks:
+      - some-net # default network
+
+networks:
+  some-net:
+    driver: bridge
+    
+
