@@ -1,0 +1,82 @@
+version: "3.9"
+
+secrets:
+  marvelapi_pub_key:
+    file: ./marvelapi_pub_key.txt
+  marvelapi_priv_key:
+    file: ./marvelapi_priv_key.txt
+
+services:
+  # mongodb:
+  #   container_name: "mongodb"
+  #   build:
+  #     context: ./mongodb
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./mongodata:/data/db
+  #     - ./mongodb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+  #   ports:
+  #     - "27018:27017"
+  #   # environment:
+  #   #   - MONGO_INITDB_ROOT_USERNAME=root
+  #   #   - MONGO_INITDB_ROOT_PASSWORD=password123
+  #   #   - MONGO_INITDB_DATABASE=marveldb
+  #   networks:
+  #     - some-net
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=test
+      - MONGO_INITDB_ROOT_PASSWORD=1234
+      - MONGO_INITDB_DATABASE=marveldb
+    volumes:
+      - ./mongodata:/data/db
+    networks:
+      - some-net
+    ports:
+      - 27017:27017
+  redis:
+    container_name: "redis"
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    ports:
+      - "6379:6379"
+    networks:
+      - some-net
+  spring-boot:
+    container_name: "spring-boot"
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    secrets:
+      - marvelapi_pub_key
+      - marvelapi_priv_key
+    environment:
+      - MONGOHOST=mongodb
+      - MONGOPORT=27017
+      - MONGODB=marveldb
+      - MONGOUSER=test
+      - MONGOPASSWORD=1234
+      - REDISHOST=redis
+      - REDISPORT=6379
+      - REDISUSER=
+      - REDISPASSWORD=
+      - MARVEL_API_URL=https://gateway.marvel.com:443/v1/public/
+      - MARVEL_API_PRIVATE_KEY_FILE=/run/secrets/marvelapi_priv_key
+      - MARVEL_API_PUBLIC_KEY_FILE=/run/secrets/marvelapi_pub_key
+    depends_on:
+      - mongodb
+      - redis
+    links:
+      - mongodb
+      - redis
+    networks:
+      - some-net
+networks:
+  some-net:
+    driver: bridge
+

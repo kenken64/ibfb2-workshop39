@@ -38,6 +38,10 @@ public class MarvelApiService {
 
     public Optional<List<MarvelCharacter>> getCharacters(String characterName,
         Integer limit, Integer offset){
+        System.out.println("marvelApiUrl: " + marvelApiUrl);
+        System.out.println("marvelApiPrivKey: " + marvelApiPrivKey);
+        System.out.println("marvelApiPubKey: " + marvelApiPubKey);
+        
         System.out.println(characterName);
         
         ResponseEntity<String> resp = null;
@@ -70,6 +74,10 @@ public class MarvelApiService {
     }
 
     public Optional<MarvelCharacter> getCharacterDetails(String charId){
+        System.out.println("marvelApiUrl: " + marvelApiUrl);
+        System.out.println("marvelApiPrivKey: " + marvelApiPrivKey);
+        System.out.println("marvelApiPubKey: " + marvelApiPubKey);
+        
         ResponseEntity<String> resp = null;
         List<MarvelCharacter> cArr = null;
         MarvelCharacter c = null;

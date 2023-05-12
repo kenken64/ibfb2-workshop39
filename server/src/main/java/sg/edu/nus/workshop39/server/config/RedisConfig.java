@@ -36,11 +36,18 @@ public class RedisConfig {
     @Scope("singleton")
     public RedisTemplate<String, String> redisTemplate() {
         final RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
-
+        System.out.println("redisHost " + redisHost);
+        System.out.println("redisPort " + redisPort.get());
+        System.out.println("redisUsername " + redisUsername);
+        System.out.println("redisPassword " + redisPassword);
+        System.out.println("redisUsername " + !redisUsername.isEmpty());
+        System.out.println("redisPassword " + !redisPassword.isEmpty());
+        
         config.setHostName(redisHost);
         config.setPort(redisPort.get());
 
         if (!redisUsername.isEmpty() && !redisPassword.isEmpty()) {
+            System.out.println("not seting username and password ");
             config.setUsername(redisUsername);
             config.setPassword(redisPassword);
         }

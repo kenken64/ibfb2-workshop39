@@ -60,7 +60,13 @@ export class ListComponent implements OnInit, OnDestroy{
     const l = await this.marvelApiSvc
         .getCharacters(this.charName, this.currentIndex, 5);
     this.characters =l;
-    this.pageNumber++;
-    this.disablePrevious = false;
+    if(this.characters.length == 0){
+      console.log("no record !");
+      this.router.navigate(['/']);
+    }else{
+      this.pageNumber++;
+      this.disablePrevious = false;
+    }
+    
   }
 }
